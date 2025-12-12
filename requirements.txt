@@ -4,6 +4,7 @@ python-dotenv
 langchain
 langchain-openai
 langchain-text-splitters
+langchain-community
 pydantic
 chromadb
 pypdf
