@@ -5,9 +5,9 @@ import os
 from typing import List
 from langchain_core.documents import Document
 from langchain_community.vectorstores import Chroma
-from langchain_google_genai  import GoogleGenerativeAIEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from app.config import settings
-from pydantic.v1 import SecretStr
+
 
 class VectorStore:
     """
@@ -37,8 +37,7 @@ class VectorStore:
         """
         self.embeddings = GoogleGenerativeAIEmbeddings(
             model=settings.GEMINI_EMBED_MODEL,
-            google_api_key=SecretStr(settings.GOOGLE_API_KEY), # type: ignore
-            task_type="retrieval_document",
+            google_api_key=settings.GOOGLE_API_KEY
         )
 
         # Path to persist vector DB

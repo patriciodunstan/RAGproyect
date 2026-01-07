@@ -55,14 +55,14 @@ class Retriever:
         # Formatear contexto para el prompt
         #Cada chunk se numera y se identifica por su fuente
         context_parts = []
-        source = set()
+        sources = set()
 
         for index, doc in enumerate(results, 1):
             source = doc.metadata.get('source', 'unknown source')
             page = doc.metadata.get('page', 'unknown page')
             chunk_id = doc.metadata.get('chunk_id', 'unknown id')
 
-            source.add(source)
+            sources.add(source)
 
             #Formato: [Fuente - Págnina X - Chunk Y]
             context_parts.append(
@@ -73,7 +73,7 @@ class Retriever:
         return {
             "chunks": results,
             "context": context,
-            "sources": list(source)
+            "sources": list(sources)
         }
     
     def retrieve_with_scores(self, query: str, top_k: int = 3) -> List[Dict[str, Any]]:

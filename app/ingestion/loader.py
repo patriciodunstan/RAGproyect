@@ -5,7 +5,8 @@
 
 from pathlib import Path
 from typing import List
-from langchain_community.document_loaders import PyPDFLoader, TextLoader, Docx2TxtLoader
+from langchain_community.document_loaders import PyPDFLoader, TextLoader
+from langchain_community.document_loaders.word_document import Docx2txtLoader
 from langchain_core.documents import Document
 
 class DocumentLoader:
@@ -20,7 +21,7 @@ class DocumentLoader:
     SUPORTED_EXTENSIONS = {
         ".pdf": PyPDFLoader,
         ".txt": TextLoader,
-        ".docx": Docx2TxtLoader
+        ".docx": Docx2txtLoader
     }
 
     @classmethod
