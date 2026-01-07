@@ -1,0 +1,45 @@
+# azure-pipelines.yml para construir y desplegar un contenedor en Azure
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  imageName: 'ragproyect'
+
+steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.11'
+      addToPath: true
+
+  - script: |
+      python -m pip install --upgrade pip
+      pip install -r requirements.txt
+    displayName: 'Instalar dependencias Python'
+
+  - task: Docker@2
+    displayName: 'Construir imagen Docker'
+    inputs:
+      command: build
+      Dockerfile: '**/Dockerfile'
+      tags: |
+        $(Build.BuildId)
+      repository: $(imageName)
+
+  - task: Docker@2
+    displayName: 'Publicar imagen en Azure Container Registry'
+    inputs:
+      command: push
+      repository: $(imageName)
+      tags: |
+        $(Build.BuildId)
+      containerRegistry: '$(dockerRegistryServiceConnection)'
+
+# Opcional: Despliegue a Azure Web App for Containers
+#  - task: AzureWebAppContainer@1
+#    inputs:
+#      azureSubscription: '<nombre-conexion-servicio>'
+#      appName: '<nombre-app-service>'
+#      containers: '$(containerRegistry)/$(imageName):$(Build.BuildId)'

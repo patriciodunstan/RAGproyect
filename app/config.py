@@ -4,10 +4,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class Settings:
-    # == Azure OpenAI ==
-    AZURE_OPENAI_ENDPOINT: str = os.getenv("AZURE_OPENAI_ENDPOINT", "")
-    AZURE_OPENAI_KEY: str = os.getenv("AZURE_OPENAI_KEY", "")
-    AZURE_OPENAI_EMBED_MODEL: str = "text-embedding-3-large"
+    # ===== Google Gemini =====
+    GOOGLE_API_KEY: str = os.getenv("GOOGLE_API_KEY", "")
+    GEMINI_MODEL: str = os.getenv("GEMINI_MODEL", "gemini-2.0-flash-exp")
+    GEMINI_EMBED_MODEL: str = os.getenv("GEMINI_EMBED_MODEL", "models/embedding-001")
 
 
     #=== Directorios ===
@@ -25,3 +25,8 @@ settings = Settings()
 
 os.makedirs(settings.DATA_DIR, exist_ok=True)
 os.makedirs(settings.VECTORDB_DIR, exist_ok=True)
+
+if not settings.GOOGLE_API_KEY:
+    raise ValueError("La variable de entorno GOOGLE_API_KEY no está configurada.")
+if not settings.GEMINI_MODEL:
+    raise ValueError("La variable de entorno GEMINI_MODEL no está configurada.")
